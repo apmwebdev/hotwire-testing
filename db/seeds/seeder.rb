@@ -2,9 +2,13 @@
 
 class Seeder
   def seed(reset: true)
-    Resetter.reset_db if reset
+    if reset
+      Resetter.reset_db
+      puts "Reset DB"
+    end
     seed_users
     seed_posts
+    puts "DB seeded successfully!"
   end
 
   def seed_users
@@ -15,6 +19,7 @@ class Seeder
         email: Faker::Internet.email,
       )
     end
+    puts "Seeded users"
   end
 
   def seed_posts
@@ -22,9 +27,10 @@ class Seeder
       rand(10).times do
         user.posts.create(
           title: Faker::Book.title,
-          body: Faker::Lorem.paragraphs(number: 3)
+          body: Faker::Lorem.paragraphs(number: 3).join("\n\n")
         )
       end
     end
+    puts "Seeded posts"
   end
 end
