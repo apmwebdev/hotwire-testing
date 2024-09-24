@@ -27,10 +27,24 @@ class Seeder
       rand(10).times do
         user.posts.create(
           title: Faker::Book.title,
-          body: Faker::Lorem.paragraphs(number: 3).join("\n\n")
+          body: create_post_body
         )
       end
     end
     puts "Seeded posts"
+  end
+
+  private
+
+  def create_post_body
+    paragraphs = []
+    6.times do
+      sentences = []
+      rand(5..15).times do
+        sentences << Faker::Lorem.sentence(word_count: 3, random_words_to_add: 10)
+      end
+      paragraphs << sentences.join(" ")
+    end
+    paragraphs.join("\n\n")
   end
 end
