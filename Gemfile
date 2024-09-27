@@ -4,6 +4,7 @@ gem "rails", "~> 7.2.1"
 
 gem "bootsnap", require: false
 gem "cssbundling-rails", "~> 1.4"
+gem "kaminari", "~> 1.2"
 gem "importmap-rails"
 gem "jbuilder"
 gem "pg", "~> 1.5"
@@ -36,3 +37,4 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
