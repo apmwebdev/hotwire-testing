@@ -4,5 +4,9 @@
     <strong>Author:</strong>
     <%= link_to post.author.name, post.author %>
   </p>
+  <p>
+    <strong>Status:</strong>
+    <%= post.status %>
+  </p>
   <%= format_post_body(post.body) %>
 </div>

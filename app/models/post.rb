@@ -28,4 +28,11 @@ class Post < ApplicationRecord
   def published?
     published_at && archived_at.nil?
   end
+
+  def status
+    return "Archived" if archived?
+    return "Draft" if draft?
+    return "Published" if published?
+    "Unknown"
+  end
 end
