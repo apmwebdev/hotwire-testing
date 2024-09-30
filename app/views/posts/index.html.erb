@@ -1,12 +1,49 @@
-<% content_for :title, "Posts" %>
+<%
+  content_for :title, "Posts"
+  archive_button_id = "posts-table-archive-button"
+  make_draft_button_id = "posts-table-make-draft-button"
+  publish_button_id = "posts-table-publish-button"
+%>
 <h1>Posts</h1>
 
-<div id="posts">
-  <div>Table header</div>
+<div id="posts"
+     data-controller="table-actions"
+>
+  <div>
+    <button
+      id="<%= publish_button_id %>"
+      class="btn btn-outline-primary btn-sm"
+      data-table-actions-target="actionButton"
+    >
+      Publish
+    </button>
+    <button
+      id="<%= archive_button_id %>"
+      class="btn btn-outline-primary btn-sm"
+      data-table-actions-target="actionButton"
+    >
+      Archive
+    </button>
+    <button
+      id="<%= make_draft_button_id %>"
+      class="btn btn-outline-primary btn-sm"
+      data-table-actions-target="actionButton"
+    >
+      Make Draft
+    </button>
+  </div>
   <table class="table table-hover table-striped">
     <thead>
     <tr>
-      <th><input type="checkbox" class="form-check-input" aria-label="mass select"></th>
+      <th>
+        <input
+          type="checkbox"
+          class="form-check-input"
+          aria-label="mass select"
+          data-table-actions-target="headerCheckbox"
+          data-action="change->table-actions#toggleAll"
+        >
+      </th>
       <th>Title</th>
       <th>Author</th>
       <th>Status</th>
@@ -14,8 +51,26 @@
     </thead>
     <tbody>
     <% @posts.each do |post| %>
-      <tr>
-        <td><input type="checkbox" class="form-check-input" aria-label="select this post"></td>
+    <%
+      disabled_action_ids = []
+      disabled_action_ids << archive_button_id if post.archived?
+      disabled_action_ids << make_draft_button_id if post.draft?
+      disabled_action_ids << publish_button_id if post.published?
+    %>
+      <tr
+        data-post-status="<%= post.status %>"
+        data-table-actions-target="row"
+        data-disabled-action-ids="<%= disabled_action_ids %>"
+      >
+        <td>
+          <input
+            type="checkbox"
+            class="form-check-input"
+            aria-label="select this post"
+            data-table-actions-target="rowCheckbox"
+            data-action="change->table-actions#toggleRow"
+          >
+        </td>
         <td><%= link_to post.title, post %></td>
         <td><%= link_to post.author.name, post.author %></td>
         <td><%= post.status %></td>
