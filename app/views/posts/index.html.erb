@@ -32,7 +32,7 @@
       Make Draft
     </button>
   </div>
-  <table class="table table-hover table-striped">
+  <table class="table table-hover">
     <thead>
     <tr>
       <th>
@@ -58,6 +58,7 @@
       disabled_action_ids << publish_button_id if post.published?
     %>
       <tr
+        data-controller="table-row-status"
         data-post-status="<%= post.status %>"
         data-table-actions-target="row"
         data-disabled-action-ids="<%= disabled_action_ids %>"
@@ -73,7 +74,7 @@
         </td>
         <td><%= link_to post.title, post %></td>
         <td><%= link_to post.author.name, post.author %></td>
-        <td><%= post.status %></td>
+        <td data-table-row-status-target="statusColor"><%= post.status %></td>
       </tr>
     <% end %>
     </tbody>
