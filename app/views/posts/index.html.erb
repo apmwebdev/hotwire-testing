@@ -4,11 +4,20 @@
   make_draft_button_id = "posts-table-make-draft-button"
   publish_button_id = "posts-table-publish-button"
 %>
-<h1>Posts</h1>
+<h1>
+  Posts
+  <%= turbo_frame_tag "new_post_button" do %>
+    <% link_to "New",
+      new_post_path,
+      data: { turbo_frame: "post_form" },
+      class: "btn btn-lg btn-primary"
+    %>
+  <% end %>
+</h1>
 
-<div id="posts"
-     data-controller="table-actions"
->
+<%= turbo_frame_tag "post_form" do %><% end %>
+<div class="spacer"></div>
+<div id="posts" data-controller="table-actions">
   <div>
     <button
       id="<%= publish_button_id %>"
@@ -51,12 +60,12 @@
     </thead>
     <tbody>
     <% @posts.each do |post| %>
-    <%
-      disabled_action_ids = []
-      disabled_action_ids << archive_button_id if post.archived?
-      disabled_action_ids << make_draft_button_id if post.draft?
-      disabled_action_ids << publish_button_id if post.published?
-    %>
+      <%
+        disabled_action_ids = []
+        disabled_action_ids << archive_button_id if post.archived?
+        disabled_action_ids << make_draft_button_id if post.draft?
+        disabled_action_ids << publish_button_id if post.published?
+      %>
       <tr
         data-controller="table-row-status"
         data-post-status="<%= post.status %>"
@@ -82,5 +91,3 @@
 </div>
 
 <%= paginate @posts %>
-
-<%= link_to "New post", new_post_path %>
