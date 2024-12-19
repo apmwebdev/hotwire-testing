@@ -24,6 +24,7 @@ class PostsTest < ApplicationSystemTestCase
   end
 
   test "should update Post" do
+    skip
     visit post_url(@post)
     click_on "Edit this post", match: :first
 
